@@ -1,0 +1,11 @@
+div.header > div:nth-child(n + 2) {
+  border-left: 1px solid grey;
+}
+
+div.body > div {
+  border-top: 1px solid grey;
+}
+
+div.body > div:nth-child(n + 2) {
+  border-left: 1px solid grey;
+}

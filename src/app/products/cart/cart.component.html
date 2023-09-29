@@ -1,0 +1,321 @@
+<div
+  *ngIf="allCarts.length != 0"
+  style="min-height: 80vh; height: min-content"
+  class="d-flex justify-content-center align-items-center column-gap-5 py-4"
+>
+  <div class="shadow">
+    <div class="header d-flex justify-content-center">
+      <div
+        class="d-flex justify-content-center align-items-center fw-bold p-2"
+        style="width: 3rem"
+      >
+        No
+      </div>
+      <div
+        class="d-flex justify-content-center align-items-center fw-bold p-2"
+        style="width: 10rem"
+      >
+        Product Name
+      </div>
+      <div
+        class="d-flex justify-content-center align-items-center fw-bold p-2"
+        style="width: 8rem"
+      >
+        Image
+      </div>
+      <div
+        class="d-flex justify-content-center align-items-center fw-bold p-2"
+        style="width: 8rem"
+      >
+        Quantity
+      </div>
+      <div
+        class="d-flex justify-content-center align-items-center fw-bold p-2"
+        style="width: 6rem"
+      >
+        Price
+      </div>
+      <div
+        class="d-flex justify-content-center align-items-center fw-bold p-2"
+        style="width: 5rem"
+      >
+        Action
+      </div>
+    </div>
+    <div
+      class="body d-flex justify-content-center"
+      *ngFor="let cart of allCarts; let i = index"
+    >
+      <div
+        class="d-flex justify-content-center align-items-center fw-semibold p-2"
+        style="width: 3rem"
+      >
+        {{ i + 1 }}
+      </div>
+      <div
+        class="d-flex justify-content-center align-items-center fw-semibold p-2"
+        style="width: 10rem"
+      >
+        {{ cart.title }}
+      </div>
+      <div
+        class="d-flex justify-content-center align-items-center fw-semibold p-2"
+        style="width: 8rem"
+      >
+        <img src="{{ cart.image }}" style="width: 100%; height: 8rem" />
+      </div>
+      <div
+        class="d-flex justify-content-center align-items-center fw-semibold p-2"
+        style="width: 8rem"
+      >
+        <button
+          (click)="decrementCartProduct(cart.id)"
+          class="btn btn-outline-dark"
+        >
+          <div class="fa-solid fa-minus"></div>
+        </button>
+        <div class="d-flex justify-content-center" style="width: 4rem">
+          {{ cart.quantity }}
+        </div>
+        <button
+          (click)="incrementCartProduct(cart.id)"
+          class="btn btn-outline-dark"
+        >
+          <div class="fa-solid fa-plus"></div>
+        </button>
+      </div>
+      <div
+        class="d-flex justify-content-center align-items-center fw-semibold p-2"
+        style="width: 6rem"
+      >
+        ${{ cart.price }}
+      </div>
+      <div
+        class="d-flex justify-content-center align-items-center fw-semibold p-2"
+        style="width: 5rem"
+      >
+        <button
+          (click)="deleteCartItem(cart.id)"
+          class="btn btn-outline-danger"
+        >
+          <div class="fa-solid fa-trash"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="d-flex flex-column justify-content-center shadow ms-2 text-center p-3"
+    style="width: 30rem"
+  >
+    <h2>Product Bill</h2>
+    <h4 class="text-start">
+      price: ${{ (cartTotalPrice + (cartTotalPrice * 20) / 100).toFixed(2) }}
+    </h4>
+    <h4 class="text-start">Discount: 20%</h4>
+    <h3 class="text-start">Grand Total: ${{ cartTotalPrice.toFixed(2) }}</h3>
+    <button
+      class="btn btn-success w-25 mx-auto"
+      data-bs-toggle="modal"
+      data-bs-target="#staticBackdrop"
+    >
+      Check Out
+    </button>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-3" id="staticBackdropLabel">
+          Check Out Details
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div *ngIf="!proceedToPayment" class="modal-body">
+        <div class="d-flex justify-content-center">
+          <h3 class="modal-title fs-5 mb-3" id="staticBackdropLabel">
+            Enter Your Delivery Details
+          </h3>
+        </div>
+        <form [formGroup]="addressForm" (ngSubmit)="submitForm()">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingName"
+              placeholder="Name"
+              name="name"
+              formControlName="name"
+              required
+            />
+            <label for="floatingName">Name</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingHouseNumber"
+              placeholder="House Number"
+              name="houseNumber"
+              formControlName="houseNumber"
+              required
+            />
+            <label for="floatingHouseNumber">House Number</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingStreetName"
+              placeholder="Street Name"
+              name="streetName"
+              formControlName="streetName"
+              required
+            />
+            <label for="floatingStreetName">Street Name</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingState"
+              placeholder="State"
+              name="state"
+              formControlName="state"
+              required
+            />
+            <label for="floatingStreetName">State</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingPincode"
+              placeholder="Pincode"
+              name="pincode"
+              formControlName="pincode"
+              required
+            />
+            <label for="floatingPincode">Pincode</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingMobileNumber"
+              placeholder="Mobile Number"
+              name="mobileNumber"
+              formControlName="mobileNumber"
+              required
+            />
+            <label for="floatingMobileNumber">Mobile Number</label>
+          </div>
+          <div class="modal-footer d-flex flex-column">
+            <div class="d-flex justify-content-center align-items-center">
+              <h4>Total Price: ${{ offerTotalPrice.toFixed(2) }}</h4>
+            </div>
+            <div class="d-flex justify-content-center align-items-center gap-4">
+              <button
+                type="button"
+                class="btn btn-outline-dark border-none"
+                (click)="offerClick()"
+                *ngIf="!discountStatus"
+              >
+                Offers
+                <i class="fa-solid fa-tag text-danger"> </i>
+              </button>
+              <button type="submit" class="btn btn-success">
+                Make Payment
+              </button>
+            </div>
+            <div>
+              <div
+                *ngIf="offerClicked && !discountStatus"
+                class="d-flex justify-content-center align-items-center gap-4"
+              >
+                <img
+                  *ngIf="offerTotalPrice <= 100"
+                  (click)="discountClick(10)"
+                  src="https://static.vecteezy.com/system/resources/thumbnails/004/141/284/small/golden-10-percent-off-flat-cartoon-style-logo-concept-10-percent-sale-isolated-icon-on-black-background-ten-percent-discount-for-business-illustration-vector.jpg"
+                  style="width: 8rem; border-radius: 1rem"
+                />
+                <img
+                  *ngIf="offerTotalPrice > 100 && offerTotalPrice <= 500"
+                  (click)="discountClick(20)"
+                  src="https://static.vecteezy.com/system/resources/thumbnails/004/141/295/small/golden-20-percent-off-flat-cartoon-style-logo-concept-20-percent-sale-isolated-icon-on-black-background-twenty-percent-discount-for-business-illustration-vector.jpg"
+                  style="width: 8rem; border-radius: 1rem"
+                />
+                <img
+                  *ngIf="offerTotalPrice > 500"
+                  (click)="discountClick(30)"
+                  src="https://static.vecteezy.com/system/resources/thumbnails/004/141/832/small/golden-30-percent-off-flat-cartoon-style-logo-concept-30-percent-sale-isolated-icon-on-black-background-thirty-percent-discount-for-business-illustration-vector.jpg"
+                  style="width: 8rem; border-radius: 1rem"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-body" *ngIf="proceedToPayment">
+        <div class="d-flex justify-content-center align-items-center gap-3">
+          <h3>Your Deliver Address Details</h3>
+        </div>
+        <div class="d-flex justify-content-start align-items-center ps-3">
+          <h5>{{ name }}</h5>
+        </div>
+        <div class="d-flex justify-content-start align-items-center ps-3">
+          <h5>{{ houseNumber }}</h5>
+        </div>
+        <div class="d-flex justify-content-start align-items-center ps-3">
+          <h5>{{ streetName }}</h5>
+        </div>
+        <div class="d-flex justify-content-start align-items-center ps-3">
+          <h5>{{ state }}</h5>
+        </div>
+        <div class="d-flex justify-content-start align-items-center ps-3">
+          <h5>{{ pincode }}</h5>
+        </div>
+        <div class="d-flex justify-content-start align-items-center ps-3">
+          <h5>{{ mobileNumber }}</h5>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <h4>Total Price: ${{ offerTotalPrice.toFixed(2) }}</h4>
+        </div>
+        <div *ngIf="!showPaypalButton" (click)="showPaypal()" class="d-flex justify-content-center align-items-center">
+          <button type="submit" class="btn btn-success">Proceed To Payment</button>
+        </div>
+        <div *ngIf="showPaypalButton" class="d-flex justify-content-center align-items-center">
+          <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  style="min-height: 80vh; height: min-content"
+  class="d-flex flex-column justify-content-center align-items-center"
+  *ngIf="allCarts.length == 0"
+>
+  <h1>Your cart was empty...</h1>
+  <img
+    style="width: 20rem"
+    src="https://cdn.dribbble.com/users/2046015/screenshots/4591856/first_white_girl_drbl.gif"
+    alt=""
+  />
+  <button class="btn btn-dark" routerLink="/">Shop More</button>
+</div>

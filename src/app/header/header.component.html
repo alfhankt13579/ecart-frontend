@@ -1,0 +1,48 @@
+<nav
+  class="navbar navbar-expand-lg navbar-light bg-dark"
+  style="min-height: 10vh; height: min-content; position: sticky; top: 0px;z-index: 2;"
+>
+  <div class="d-flex justify-content-center gap-2 my-2">
+    <a class="navbar-brand text-light ps-4" routerLink="/">
+      <i class="fa-cart-shopping fa-solid text-light"> </i>
+      ShopStop
+    </a>
+    <input
+      class="form-control"
+      type="text"
+      placeholder="Search By Item Name"
+      (keyup)="search($event)"
+      style="width: 15rem"
+    />
+  </div>
+  <button
+    class="navbar-toggler bg-light me-3 ms-auto"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul
+      class="navbar-nav d-flex flex-row justify-content-start ps-3 py-1 gap-2 ms-auto"
+    >
+      <li class="nav-item">
+        <button class="btn btn-outline-light" routerLink="products/wishlist">
+          Wishlist
+        </button>
+      </li>
+      <li class="nav-item me-3">
+        <button class="btn btn-outline-light" routerLink="products/cart">
+          Cart
+          <span class="badge bg-dark text-white ms-1 rounded-pill">{{
+            cartCountValue
+          }}</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>
